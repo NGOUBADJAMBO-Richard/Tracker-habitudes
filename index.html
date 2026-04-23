@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4efe7" />
+    <title>MGN Tackers</title>
+    <meta
+      name="description"
+      content="MGN Tackers est un tracker d'habitudes minimaliste avec stockage local."
+    />
+    <link rel="icon" href="assets/favicons/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="icon"
+      href="assets/favicons/favicon.png"
+      type="image/png"
+      sizes="32x32"
+    />
+    <link
+      rel="mask-icon"
+      href="assets/favicons/mask-icon.svg"
+      color="#246b4b"
+    />
+    <link rel="apple-touch-icon" href="assets/favicons/apple-touch-icon.png" />
+    <link rel="manifest" href="assets/site.webmanifest" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside id="install-banner" class="install-banner" aria-live="polite">
+        <div class="install-banner__copy">
+          <span class="install-banner__badge" data-i18n="installBannerBadge"
+            >PWA</span
+          >
+          <p id="install-status" class="install-status" data-i18n="installHint">
+            L'installation est disponible selon votre navigateur.
+          </p>
+        </div>
+
+        <button
+          id="install-app-button"
+          class="secondary-button install-banner__button"
+          type="button"
+          hidden
+          data-i18n="installApp"
+        >
+          Installer l'app
+        </button>
+      </aside>
+
+      <section class="hero">
+        <div>
+          <p class="eyebrow">MGN Tackers</p>
+          <h1 data-i18n="heroTitle">Tracker d'habitudes minimaliste</h1>
+          <p class="hero-copy" data-i18n="heroCopy">
+            Créez des routines simples, cochez-les comme faites et retrouvez vos
+            données au prochain lancement.
+          </p>
+        </div>
+
+        <div class="hero-card">
+          <div class="controls-row">
+            <label class="control-field" for="theme-toggle">
+              <span data-i18n="themeLabel">Thème</span>
+              <select id="theme-toggle" aria-label="Theme">
+                <option value="system" data-i18n="themeSystem">Système</option>
+                <option value="light" data-i18n="themeLight">Clair</option>
+                <option value="dark" data-i18n="themeDark">Sombre</option>
+              </select>
+            </label>
+
+            <label class="control-field" for="lang-toggle">
+              <span data-i18n="languageLabel">Langue</span>
+              <select id="lang-toggle" aria-label="Language">
+                <option value="fr">FR</option>
+                <option value="en">EN</option>
+              </select>
+            </label>
+          </div>
+
+          <p class="hero-card-label" data-i18n="localPersistence">
+            Persistance locale
+          </p>
+          <p data-i18n="heroCardBody">
+            Les habitudes sont enregistrées dans le navigateur via
+            <strong>localStorage</strong>.
+          </p>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="form-title">
+        <div class="panel-header">
+          <div>
+            <p class="section-label" data-i18n="newHabit">Nouvelle habitude</p>
+            <h2 id="form-title" data-i18n="createRoutine">Créer une routine</h2>
+          </div>
+        </div>
+
+        <form id="habit-form" class="habit-form" autocomplete="off">
+          <input id="habit-id" name="habit-id" type="hidden" />
+
+          <label class="field">
+            <span data-i18n="nameLabel">Nom</span>
+            <input
+              id="habit-name"
+              name="habit-name"
+              type="text"
+              data-i18n-placeholder="namePlaceholder"
+              placeholder="Ex. Boire de l'eau"
+              maxlength="60"
+              required
+            />
+          </label>
+
+          <label class="field">
+            <span data-i18n="frequencyLabel">Fréquence</span>
+            <select id="habit-frequency" name="habit-frequency" required>
+              <option value="daily" data-i18n="frequencyDaily">
+                Quotidienne
+              </option>
+              <option value="weekly" data-i18n="frequencyWeekly">
+                Hebdomadaire
+              </option>
+              <option value="monthly" data-i18n="frequencyMonthly">
+                Mensuelle
+              </option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span data-i18n="iconLabel">Icône</span>
+            <select id="habit-icon" name="habit-icon" required>
+              <option value="💧" data-i18n="iconWater">💧 Eau</option>
+              <option value="🏃" data-i18n="iconRun">🏃 Sport</option>
+              <option value="📚" data-i18n="iconRead">📚 Lecture</option>
+              <option value="🧘" data-i18n="iconMeditate">🧘 Méditation</option>
+              <option value="🛌" data-i18n="iconSleep">🛌 Sommeil</option>
+              <option value="✅" data-i18n="iconCheck">✅ Objectif</option>
+            </select>
+          </label>
+
+          <div class="form-actions">
+            <button
+              class="primary-button"
+              type="submit"
+              id="submit-habit"
+              data-i18n="addHabit"
+            >
+              Ajouter l'habitude
+            </button>
+            <button
+              class="secondary-button"
+              type="button"
+              id="cancel-edit"
+              hidden
+              data-i18n="cancelEdit"
+            >
+              Annuler l'édition
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel" aria-labelledby="view-title">
+        <div class="panel-header compact">
+          <div>
+            <p class="section-label" data-i18n="viewLabel">Vue</p>
+            <h2 id="view-title" data-i18n="trackTitle">Suivi des habitudes</h2>
+          </div>
+        </div>
+
+        <div class="view-toolbar">
+          <div class="view-switch" role="tablist" aria-label="View switcher">
+            <button
+              type="button"
+              class="view-button is-active"
+              data-view="day"
+              data-i18n="viewDay"
+            >
+              Jour
+            </button>
+            <button
+              type="button"
+              class="view-button"
+              data-view="week"
+              data-i18n="viewWeek"
+            >
+              Semaine
+            </button>
+            <button
+              type="button"
+              class="view-button"
+              data-view="month"
+              data-i18n="viewMonth"
+            >
+              Mois
+            </button>
+          </div>
+
+          <label class="control-field date-field" for="selected-date">
+            <span data-i18n="dateLabel">Date</span>
+            <input id="selected-date" type="date" />
+          </label>
+        </div>
+
+        <div class="tools-row">
+          <label class="late-filter" for="late-only-toggle">
+            <input id="late-only-toggle" type="checkbox" />
+            <span data-i18n="lateOnly"
+              >Afficher les habitudes en retard aujourd'hui</span
+            >
+          </label>
+
+          <div class="data-tools">
+            <button
+              id="export-json"
+              type="button"
+              class="secondary-button"
+              data-i18n="exportData"
+            >
+              Export JSON
+            </button>
+            <button
+              id="import-json"
+              type="button"
+              class="secondary-button"
+              data-i18n="importData"
+            >
+              Import JSON
+            </button>
+            <input
+              id="import-file"
+              type="file"
+              accept="application/json"
+              hidden
+            />
+          </div>
+        </div>
+
+        <p id="today-summary" class="today-summary" aria-live="polite"></p>
+
+        <p id="late-summary" class="late-summary" aria-live="polite"></p>
+
+        <div class="stats-grid" aria-live="polite">
+          <article class="stat-card">
+            <p class="stat-label" data-i18n="statScope">Portée</p>
+            <p id="stat-scope" class="stat-value">-</p>
+          </article>
+          <article class="stat-card">
+            <p class="stat-label" data-i18n="statRate">Taux de réussite</p>
+            <p id="stat-rate" class="stat-value">0%</p>
+          </article>
+          <article class="stat-card">
+            <p class="stat-label" data-i18n="statCompletions">Validations</p>
+            <p id="stat-completions" class="stat-value">0 / 0</p>
+          </article>
+        </div>
+
+        <article class="chart-card" aria-labelledby="weekly-chart-title">
+          <p
+            class="stat-label"
+            id="weekly-chart-title"
+            data-i18n="weeklyChartTitle"
+          >
+            Progression hebdomadaire
+          </p>
+          <canvas
+            id="weekly-chart"
+            width="760"
+            height="180"
+            aria-label="Weekly chart"
+          ></canvas>
+        </article>
+      </section>
+
+      <section class="panel" aria-labelledby="list-title">
+        <div class="panel-header compact">
+          <div>
+            <p class="section-label" data-i18n="listLabel">Liste</p>
+            <h2 id="list-title" data-i18n="savedHabits">
+              Habitudes enregistrées
+            </h2>
+          </div>
+          <p id="habit-count" class="count"></p>
+        </div>
+
+        <div id="habit-list" class="habit-list" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <template id="habit-item-template">
+      <article class="habit-item">
+        <div class="habit-item-main">
+          <div>
+            <p class="habit-icon"></p>
+            <h3 class="habit-name"></h3>
+            <p class="habit-frequency"></p>
+          </div>
+          <span class="status-pill"></span>
+        </div>
+
+        <div class="calendar-strip" hidden></div>
+
+        <div class="habit-actions">
+          <button type="button" class="toggle-button"></button>
+          <button type="button" class="edit-button" data-i18n="edit">
+            Modifier
+          </button>
+          <button type="button" class="delete-button" data-i18n="delete">
+            Supprimer
+          </button>
+        </div>
+      </article>
+    </template>
+
+    <script src="config/app.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
