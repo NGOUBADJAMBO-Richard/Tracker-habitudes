@@ -692,6 +692,30 @@ body[data-theme="dark"] .edit-button {
   line-height: 1.6;
 }
 
+.site-footer {
+  margin-top: 18px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+.site-footer a {
+  color: var(--accent-strong);
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 160ms ease;
+}
+
+.site-footer a:hover,
+.site-footer a:focus-visible {
+  border-bottom-color: currentColor;
+}
+
 @media (max-width: 780px) {
   .install-banner {
     align-items: flex-start;
